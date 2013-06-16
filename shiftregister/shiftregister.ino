@@ -32,40 +32,47 @@
     Serial.begin(9600);
     }
      
-    void loop()
-    {
+void loop()
+{
     int lecturaMais=digitalRead(pinBotonMais);
 
     if (lecturaMais!=ultimoEstadoBotonMais) {
       ultimoDebounce=millis();
-    }
+      }
     
-    if ((millis()-ultimoDebounce)>retardoDebounce) {
-      if (lecturaMais!=estadoBotonMais) {
+    if ((millis()-ultimoDebounce)>retardoDebounce) 
+    {
+      if (lecturaMais!=estadoBotonMais) 
+      {
         estadoBotonMais=lecturaMais;
         
-        if (estadoBotonMais==HIGH) {
+        if (estadoBotonMais==HIGH) 
+        {
           programa=programa+1;
           Serial.println("programa");
           Serial.println(programa);
+          }
         }
       }
-    }
     
     ultimoEstadoBotonMais=lecturaMais;
     
     
     int lecturaMenos=digitalRead(pinBotonMenos);
 
-    if (lecturaMenos!=ultimoEstadoBotonMenos) {
+    if (lecturaMenos!=ultimoEstadoBotonMenos) 
+    {
       ultimoDebounce=millis();
     }
     
-    if ((millis()-ultimoDebounce)>retardoDebounce) {
-      if (lecturaMenos!=estadoBotonMenos) {
+    if ((millis()-ultimoDebounce)>retardoDebounce) 
+    {
+      if (lecturaMenos!=estadoBotonMenos) 
+      {
         estadoBotonMenos=lecturaMenos;
         
-        if (estadoBotonMenos==HIGH) {
+        if (estadoBotonMenos==HIGH) 
+        {
           programa--;
           Serial.println("programa");
           Serial.println(programa);
@@ -75,23 +82,72 @@
     
     ultimoEstadoBotonMenos=lecturaMenos;
     
-//    
-//    leds = 0;
-//    updateShiftRegister();
-//    delay(500);
-//    for (int i = 0; i < 8; i++)
-//    {
-//    bitSet(leds, i);
-//    updateShiftRegister();
-//    delay(500);
-//    }
-    }
+    switch (programa) 
+    {
+       case 0:
+         apagados();
+         break;
+       
+       case 1:
+         encendidoProgresivo();
+         break;
      
-//    void updateShiftRegister()
-//    {
-//    digitalWrite(latchPin, LOW);
-//    shiftOut(dataPin, clockPin, LSBFIRST, leds);
-//    digitalWrite(latchPin, HIGH);
-//    }
-//    
+      
+      }
+    
+}
+
+    void lecturaBoton(int pinBoton)
+    {
+      int lectura=digitalRead(pinBoton);
+
+    if (lectura!=ultimoEstadoBotonMais) {
+      ultimoDebounce=millis();
+      }
+    
+    if ((millis()-ultimoDebounce)>retardoDebounce) 
+    {
+      if (lectura!=estadoBotonMais) 
+      {
+        estadoBotonMais=lectura;
+        
+        if (estadoBotonMais==HIGH) 
+        {
+          programa=programa+1;
+          Serial.println("programa");
+          Serial.println(programa);
+          }
+        }
+      }
+    
+    ultimoEstadoBotonMais=lectura;
+    
+    }
+    
+    
+    void updateShiftRegister()
+    {
+    digitalWrite(latchPin, LOW);
+    shiftOut(dataPin, clockPin, LSBFIRST, leds);
+    digitalWrite(latchPin, HIGH);
+    }
+    
+  void apagados()
+  {
+    leds=0;
+    updateShiftRegister();
+  }
+  
+  void encendidoProgresivo() 
+  {
+      leds = 0;
+      updateShiftRegister();
+      delay(500);
+      for (int i = 0; i < 8; i++)
+      {
+      bitSet(leds, i);
+      updateShiftRegister();
+      delay(500);
+      }
+    }
 //    
