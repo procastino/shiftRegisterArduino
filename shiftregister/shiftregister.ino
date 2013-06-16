@@ -1,22 +1,17 @@
     /*
-    Adafruit Arduino - Lesson 4. 8 LEDs and a Shift Register
+    From Adafruit lesson, improved to patterned LED lights controlled by two pushbuttons
     */
      
-//    #define pinBotonMais 3
-//    #define pinBotonMenos 2
+//definimos botons e variables precisas
     
     int pinBotons[]={3,2};
     int ultimoEstadoBoton[]={LOW,LOW};
     int estadoBoton[]={LOW,LOW};
-    
-//    int estadoBotonMais;
-//    int estadoBotonMenos;
-//    int ultimoEstadoBotonMais=LOW;
-//    int ultimoEstadoBotonMenos=LOW;
-    
+        
     long ultimoDebounce=0;
     long retardoDebounce=20;
-    
+
+//variables para as saídas do arduino para o 74HC595    
     int latchPin = 5;
     int clockPin = 6;
     int dataPin = 4;
@@ -38,6 +33,7 @@
     Serial.begin(9600);
     }
      
+//O loop consiste en facer a lectura dos botóns e chamar ao programa correspondente
 void loop()
 {
   
@@ -77,6 +73,9 @@ void loop()
       }
     
 }
+
+
+//función de lectura dos botóns con Debounce
 
     void lecturaBotons()
     {
@@ -124,14 +123,16 @@ void loop()
     
     }
     
-    
+//función que manda os datos do byte leds ao shiftregister para que este defina o estado dos LED
   void updateShiftRegister()
   {
   digitalWrite(latchPin, LOW);
   shiftOut(dataPin, clockPin, LSBFIRST, leds);
   digitalWrite(latchPin, HIGH);
   }
-    
+
+// funcións para os patróns, explícanse por si mesmas co nome
+  
   void apagados()
   {
     leds=0;
@@ -201,4 +202,4 @@ void loop()
       }
     }
     
-//    
+
