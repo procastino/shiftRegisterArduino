@@ -66,6 +66,10 @@ void loop()
          kitt();
          break;
        
+       case 6:
+         alternativoTodos();
+         break;
+       
        default:
          apagados();
          break;
@@ -99,7 +103,7 @@ void loop()
               if (i==0)
               {
               programa=programa+1;
-              if (programa>5)
+              if (programa>6)
                   {
                     programa=0;
                   }
@@ -109,7 +113,7 @@ void loop()
                 programa=programa-1;
                 if (programa<0)
                   {
-                    programa=5;
+                    programa=6;
                   }
               }
               
@@ -200,6 +204,16 @@ void loop()
       updateShiftRegister();
       delay(100);
       }
+  }
+    
+    void alternativoTodos()
+    {
+      leds=B11111111;
+      updateShiftRegister();
+      delay(100);
+      leds=B00000000;
+      updateShiftRegister();
+      delay(100);
     }
     
 
